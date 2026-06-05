@@ -87,12 +87,11 @@ Sem essa estrutura, essas consultas exigiriam varredura linear O(n) em um estoqu
 
 ## Dados mock
 
-<!-- Preencher após Commit 3 -->
-
-- Total de itens: _a definir_
-- Produtos: _ex: Garrafa 500ml, Garrafa 1L, Galão 20L..._
-- Período de validades: _a definir_
-- Fornecedores: _a definir_
+- **Total de itens:** 52.000
+- **Produtos:** Garrafa 200ml / 300ml / 500ml / 750ml / 1L / 1.5L / 2L · Galão 5L / 10L / 20L · Caixa 1L / 2L · Água com gás 350ml / 500ml / 1L · Água alcalina 500ml / 1.5L · Água mineral (com e sem gás)
+- **Período de validades:** 2025-01-01 → 2028-01-01
+- **Fornecedores:** 8 (Cristalina Ltda., Purágua S.A., NaturaFonte, AquaPura, Serra Verde, Fonte Pérola, Hidroplus, BemSer)
+- **Gerado por:** [`data/generate_mock.py`](data/generate_mock.py) com `random.seed(42)` (reproduzível)
 
 ---
 
@@ -122,24 +121,3 @@ $ python -m pytest tests/ -v
 - [`results/exemplos_execucao.md`](results/exemplos_execucao.md) — Saídas de exemplo
 
 ---
-
-## 📝 Histórico de commits
-
-| # | Commit | Autor | Status |
-|---|--------|-------|--------|
-| 1 | `chore: estrutura inicial do projeto` | Euller | ✅ |
-| 2 | `docs: define proposta do sistema de estoque` | Euller | ⬜ |
-| 3 | `feat: adiciona dados mock de estoque` | Euller | ⬜ |
-| 4 | `feat: cria estrutura base da arvore rubro negra` | Davi | ⬜ |
-| 5 | `feat: implementa rotacoes da arvore rubro negra` | Davi | ⬜ |
-| 6 | `feat: implementa insercao e balanceamento` | Davi | ⬜ |
-| 7 | `feat: adiciona busca e percurso em ordem` | Davi | ⬜ |
-| 8 | `test: adiciona testes da arvore rubro negra` | Davi | ⬜ |
-| 9 | `feat: cria modelo de item de estoque` | Euller | ⬜ |
-| 10 | `feat: cria servico de inventario com dados mock` | Euller | ⬜ |
-| 11 | `feat: integra estoque com arvore rubro negra` | Euller | ⬜ |
-| 12 | `test: adiciona testes do servico de inventario` | Euller | ⬜ |
-| 13 | `feat: adiciona interface streamlit de estoque` | Euller | ⬜ |
-| 14 | `feat: adiciona visualizacao textual da arvore` | Davi | ⬜ |
-| 15 | `docs: documenta complexidade e propriedades da arvore` | Ambos | ⬜ |
-| 16 | `docs: adiciona roteiro da demonstracao em video` | Ambos | ⬜ |
