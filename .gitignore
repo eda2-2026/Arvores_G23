@@ -1,0 +1,41 @@
+# Bytecode Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Distribuição / empacotamento
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Ambientes virtuais
+venv/
+env/
+.env
+.venv
+ENV/
+
+# Pytest / cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
