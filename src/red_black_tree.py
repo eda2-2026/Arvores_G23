@@ -5,7 +5,7 @@ Implementação de Árvore Rubro-Negra para indexação de lotes de estoque.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, List, Optional
+from typing import Any, Iterable, List, Optional, Tuple
 
 RED = "RED"
 BLACK = "BLACK"
@@ -185,3 +185,150 @@ class RedBlackTree:
 
         self.root.color = BLACK
         self.root.parent = self.nil
+
+    def search_node(self, key: Any) -> Optional[RedBlackNode]:
+        """Busca e retorna o nó de uma chave, ou None se não encontrar."""
+        current = self.root
+
+        while current is not self.nil:
+            if key == current.key:
+                return current
+            if key < current.key:
+                current = current.left
+            else:
+                current = current.right
+
+        return None
+
+    def search(self, key: Any) -> List[Any]:
+        """Retorna todos os valores associados à chave informada."""
+        node = self.search_node(key)
+        if node is None:
+            return []
+        return list(node.values)
+
+    def contains(self, key: Any) -> bool:
+        """Retorna True se a chave existir na árvore."""
+        return self.search_node(key) is not None
+
+    def in_order(self) -> List[Tuple[Any, List[Any]]]:
+        """Retorna uma lista de pares (chave, valores) em ordem crescente."""
+        result: List[Tuple[Any, List[Any]]] = []
+        self._in_order(self.root, result)
+        return result
+
+    def _in_order(self, node: RedBlackNode, result: List[Tuple[Any, List[Any]]]) -> None:
+        if node is self.nil:
+            return
+
+        self._in_order(node.left, result)
+        result.append((node.key, list(node.values)))
+        self._in_order(node.right, result)
+
+    def in_order_values(self) -> List[Any]:
+        """Retorna todos os valores na ordem crescente das chaves."""
+        values: List[Any] = []
+        for _, node_values in self.in_order():
+            values.extend(node_values)
+        return values
+
+    def keys(self) -> List[Any]:
+        """Retorna todas as chaves distintas em ordem crescente."""
+        return [key for key, _ in self.in_order()]
+
+    def minimum_node(self, start: Optional[RedBlackNode] = None) -> Optional[RedBlackNode]:
+        """Retorna o nó de menor chave a partir de start, ou da raiz."""
+        current = self.root if start is None else start
+        if current is self.nil:
+            return None
+
+        while current.left is not self.nil:
+            current = current.left
+
+        return current
+
+    def maximum_node(self, start: Optional[RedBlackNode] = None) -> Optional[RedBlackNode]:
+        """Retorna o nó de maior chave a partir de start, ou da raiz."""
+        current = self.root if start is None else start
+        if current is self.nil:
+            return None
+
+        while current.right is not self.nil:
+            current = current.right
+
+        return current
+
+    def min(self) -> Optional[Tuple[Any, List[Any]]]:
+        """Retorna o par (menor chave, valores), ou None se a árvore estiver vazia."""
+        node = self.minimum_node()
+        if node is None:
+            return None
+        return node.key, list(node.values)
+
+    def max(self) -> Optional[Tuple[Any, List[Any]]]:
+        """Retorna o par (maior chave, valores), ou None se a árvore estiver vazia."""
+        node = self.maximum_node()
+        if node is None:
+            return None
+        return node.key, list(node.values)
+
+    def height(self) -> int:
+        """Retorna a altura da árvore, onde uma árvore vazia possui altura 0,
+        enquanto uma árvore apenas com a raiz possui altura 1."""
+        return self._height(self.root)
+
+    def _height(self, node: RedBlackNode) -> int:
+        if node is self.nil:
+            return 0
+        return 1 + max(self._height(node.left), self._height(node.right))
+
+    def validate_properties(self) -> bool:
+        """Valida as propriedades de uma árvore rubro-negra:
+        1. Todo nó é vermelho ou preto.
+        2. A raiz é preta.
+        3. Todo NIL é preto.
+        4. Nó vermelho não possui filho vermelho.
+        5. Todo caminho até NIL possui a mesma quantidade de nós pretos.
+        """
+        if self.nil.color != BLACK:
+            return False
+
+        if self.root is self.nil:
+            return True
+
+        if self.root.color != BLACK:
+            return False
+
+        try:
+            self._validate_node(self.root, min_key=None, max_key=None)
+        except AssertionError:
+            return False
+
+        return True
+
+    def _validate_node(self, node: RedBlackNode, min_key: Any, max_key: Any) -> int:
+        if node is self.nil:
+            return 1
+
+        assert node.color in (RED, BLACK)
+
+        if min_key is not None:
+            assert node.key > min_key
+        if max_key is not None:
+            assert node.key < max_key
+
+        if node.color == RED:
+            assert node.left.color == BLACK
+            assert node.right.color == BLACK
+
+        left_black_height = self._validate_node(node.left, min_key, node.key)
+        right_black_height = self._validate_node(node.right, node.key, max_key)
+
+        assert left_black_height == right_black_height
+
+        return left_black_height + (1 if node.color == BLACK else 0)
+
+    def bulk_insert(self, pairs: Iterable[Tuple[Any, Any]]) -> None:
+        """Insere vários pares (chave, valor) na árvore."""
+        for key, value in pairs:
+            self.insert(key, value)
