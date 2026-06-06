@@ -103,3 +103,85 @@ class RedBlackTree:
 
         x.right = y
         y.parent = x
+
+    def insert(self, key: Any, value: Any = None) -> RedBlackNode:
+        """Insere uma chave/valor na árvore e retorna o nó afetado.
+
+        Se a chave já existir, o valor é apenas anexado à lista do nó existente.
+        Nesse caso não há alteração estrutural nem necessidade de balanceamento.
+        """
+        parent = self.nil
+        current = self.root
+
+        while current is not self.nil:
+            parent = current
+            if key == current.key:
+                current.values.append(value)
+                self._value_count += 1
+                return current
+            if key < current.key:
+                current = current.left
+            else:
+                current = current.right
+
+        new_node = RedBlackNode(
+            key=key,
+            values=[value],
+            color=RED,
+            left=self.nil,
+            right=self.nil,
+            parent=parent,
+        )
+
+        if parent is self.nil:
+            self.root = new_node
+        elif key < parent.key:
+            parent.left = new_node
+        else:
+            parent.right = new_node
+
+        self._node_count += 1
+        self._value_count += 1
+        self._insert_fixup(new_node)
+        return new_node
+
+    def _insert_fixup(self, node: RedBlackNode) -> None:
+        """Restaura as propriedades da árvore após uma inserção."""
+        while node.parent.color == RED:
+            grandparent = node.parent.parent
+
+            if node.parent is grandparent.left:
+                uncle = grandparent.right
+
+                if uncle.color == RED:
+                    node.parent.color = BLACK
+                    uncle.color = BLACK
+                    grandparent.color = RED
+                    node = grandparent
+                else:
+                    if node is node.parent.right:
+                        node = node.parent
+                        self.left_rotate(node)
+
+                    node.parent.color = BLACK
+                    grandparent.color = RED
+                    self.right_rotate(grandparent)
+            else:
+                uncle = grandparent.left
+
+                if uncle.color == RED:
+                    node.parent.color = BLACK
+                    uncle.color = BLACK
+                    grandparent.color = RED
+                    node = grandparent
+                else:
+                    if node is node.parent.left:
+                        node = node.parent
+                        self.right_rotate(node)
+
+                    node.parent.color = BLACK
+                    grandparent.color = RED
+                    self.left_rotate(grandparent)
+
+        self.root.color = BLACK
+        self.root.parent = self.nil
