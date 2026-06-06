@@ -1,123 +1,67 @@
-# Sistema de Gerenciamento de Estoque de Água
+# Gerenciador de Estoque de Água
 
-> Trabalho prático — Estruturas de Dados 2  
-> Implementação de **Árvore Rubro-Negra** aplicada a um sistema de controle de estoque de lotes de água por data de validade.
-
----
+**Número da Lista**: 3<br>
+**Conteúdo da Disciplina**: Árvores<br>
 
 ## Alunos
+| Matrícula | Aluno |
+| -- | -- |
+| 23/1011220  |  Davi Camilo Menezes |
+| 23/1026714  |  Euller Júlio da Silva |
 
-| Membro | Responsabilidade principal |
-|--------|---------------------------|
-| Euller | Dados mock · Modelos · Serviço de inventário · Testes de serviço · Interface Streamlit |
-| Davi   | Árvore rubro-negra · Rotações · Balanceamento · Testes da árvore · Visualizador |
+## Apresentação do trabalho
+[Link para o vídeo de apresentação]()
 
----
+## Sobre
+Descreva os objetivos do seu projeto e como ele funciona. 
 
-## Estrutura do projeto
+## Screenshots
+A seguir estão imagens do projeto em funcionamento.
 
-```
-Arvores_G23/
-├── README.md
-├── .gitignore
-├── app.py                        # interface Streamlit (Commit 13)
-├── data/
-│   └── mock_stock.json           # massa de dados mock   (Commit 3)
-├── src/
-│   ├── models.py                 # modelo StockItem      (Commit 9)
-│   ├── red_black_tree.py         # árvore rubro-negra    (Commits 4-7)
-│   ├── inventory_service.py      # serviço de estoque    (Commits 10-11)
-│   └── tree_visualizer.py        # visualização textual  (Commit 14)
-├── tests/
-│   ├── test_red_black_tree.py    # testes da árvore      (Commit 8)
-│   └── test_inventory_service.py # testes do serviço     (Commit 12)
-├── docs/
-│   ├── especificacao.md          # proposta do sistema   (Commit 2)
-│   ├── complexidade.md           # análise de complexidade (Commit 15)
-│   ├── divisoes.md
-│   └── roteiro_video.md          # roteiro da demo       (Commit 16)
-└── results/
-    └── exemplos_execucao.md      # saídas de exemplo
-```
+### Execução local dos testes
 
----
+![placeholder](docs/assets/testes.png)
 
-## Como executar
+Para garantir que a implementação da Árvore Rubro-Negra está funcionando como esperado, foram criados testes automatizados em `test_red_black_tree.py`, validando pontos como a inserção de lotes, o balanceamento da árvore, as rotações, a busca por chave, o percurso em ordem, o tratamento de chaves duplicadas e a preservação das propriedades, onde conforme a imagem, todos foram concluídos com sucesso.
 
+## Instalação
+**Linguagem**: Python<br>
+**Framework**: Streamlit<br>
+**Pré-requisitos:** Python 3.10+ instalado e `pytest` para rodar os testes<br>
+
+### Como rodar
+
+1. Clonar o repositório para a sua máquina
 ```bash
-# Instalar dependências
-pip install streamlit
+git clone https://github.com/eda2-2026/Arvores_Gerenciador-de-estoque-de-agua.git
+```
 
-# Rodar a interface
-streamlit run app.py
+2. Navegar até o diretório do projeto
+```bash
+cd Arvores_Gerenciador-de-estoque-de-agua
+```
 
-# Rodar os testes
+3. Instalar as dependências
+```bash
+python -m pip install streamlit pytest
+```
+
+4. Executar a aplicação
+```bash
+python -m streamlit run app.py
+```
+
+5. Rodar todos os testes
+```bash
 python -m pytest tests/ -v
 ```
 
-> **Pré-requisito:** Python 3.10+
+**Observações**
+- A aplicação é executada localmente por meio do *Streamlit* e disponibilizada em uma interface web, a qual é aberta automaticamente no navegador.
+- Se `python` não estiver disponível no seu terminal, use `python3` nos comandos acima.
 
----
+## Uso
+Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
 
-## Por que Árvore Rubro-Negra?
-
-A árvore rubro-negra é usada como **índice ordenado dos lotes** de água por data de validade.  
-Isso permite responder em tempo O(log n):
-
-- *"Quais lotes vencem primeiro?"*
-- *"Existe algum lote com validade X em estoque?"*
-- *"Qual o lote mais próximo do vencimento?"*
-
-Sem essa estrutura, essas consultas exigiriam varredura linear O(n) em um estoque grande.
-
----
-
-## Operações implementadas
-
-| Operação | Complexidade | Status |
-|----------|-------------|--------|
-| Inserir lote | O(log n) | ⬜ pendente |
-| Buscar por validade | O(log n) | ⬜ pendente |
-| Listar em ordem de validade | O(n) | ⬜ pendente |
-| Lote com vencimento mais próximo | O(log n) | ⬜ pendente |
-| Remover lote | O(log n) | ⬜ pendente |
-| Alertar itens próximos do vencimento | O(n) | ⬜ pendente |
-
----
-
-## Dados mock
-
-- **Total de itens:** 52.000
-- **Produtos:** Garrafa 200ml / 300ml / 500ml / 750ml / 1L / 1.5L / 2L · Galão 5L / 10L / 20L · Caixa 1L / 2L · Água com gás 350ml / 500ml / 1L · Água alcalina 500ml / 1.5L · Água mineral (com e sem gás)
-- **Período de validades:** 2025-01-01 → 2028-01-01
-- **Fornecedores:** 8 (Cristalina Ltda., Purágua S.A., NaturaFonte, AquaPura, Serra Verde, Fonte Pérola, Hidroplus, BemSer)
-- **Gerado por:** [`data/generate_mock.py`](data/generate_mock.py) com `random.seed(42)` (reproduzível)
-
----
-
-## Testes
-
-<!-- Preencher após Commits 8 e 12 -->
-
-```
-$ python -m pytest tests/ -v
-
-(resultados serão adicionados aqui)
-```
-
----
-
-## Demonstração
-
-<!-- Preencher após Commit 13 — adicionar prints da interface -->
-
----
-
-## Documentação
-
-- [`docs/especificacao.md`](docs/especificacao.md) — Proposta e justificativa do sistema
-- [`docs/complexidade.md`](docs/complexidade.md) — Análise de complexidade da árvore
-- [`docs/roteiro_video.md`](docs/roteiro_video.md) — Roteiro da demonstração em vídeo
-- [`results/exemplos_execucao.md`](results/exemplos_execucao.md) — Saídas de exemplo
-
----
+## Outros
+Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
