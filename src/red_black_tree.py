@@ -61,3 +61,45 @@ class RedBlackTree:
     def value_count(self) -> int:
         """Quantidade total de valores armazenados, incluindo chaves repetidas."""
         return self._value_count
+
+    def left_rotate(self, x: RedBlackNode) -> None:
+        """Executa rotação à esquerda no nó informado."""
+        y = x.right
+        if y is self.nil:
+            raise ValueError("Não é possível rotacionar à esquerda sem filho direito.")
+
+        x.right = y.left
+        if y.left is not self.nil:
+            y.left.parent = x
+
+        y.parent = x.parent
+        if x.parent is self.nil:
+            self.root = y
+        elif x is x.parent.left:
+            x.parent.left = y
+        else:
+            x.parent.right = y
+
+        y.left = x
+        x.parent = y
+
+    def right_rotate(self, y: RedBlackNode) -> None:
+        """Executa rotação à direita no nó informado."""
+        x = y.left
+        if x is self.nil:
+            raise ValueError("Não é possível rotacionar à direita sem filho esquerdo.")
+
+        y.left = x.right
+        if x.right is not self.nil:
+            x.right.parent = y
+
+        x.parent = y.parent
+        if y.parent is self.nil:
+            self.root = x
+        elif y is y.parent.right:
+            y.parent.right = x
+        else:
+            y.parent.left = x
+
+        x.right = y
+        y.parent = x
