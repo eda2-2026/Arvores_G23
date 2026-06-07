@@ -20,9 +20,13 @@ A seguir estão imagens do projeto em funcionamento.
 
 ### Execução local dos testes
 
-![placeholder](docs/assets/testes.png)
+![alt text](docs/assets/testes.png)
 
 Para garantir que a implementação da Árvore Rubro-Negra está funcionando como esperado, foram criados testes automatizados em `test_red_black_tree.py`, validando pontos como a inserção de lotes, o balanceamento da árvore, as rotações, a busca por chave, o percurso em ordem, o tratamento de chaves duplicadas e a preservação das propriedades, onde conforme a imagem, todos foram concluídos com sucesso.
+
+![alt text](docs/assets/testes2.png)
+
+Além disso, foram implementados testes para a camada de serviços em `test_inventory_service.py`, os quais garantem a correta integração do estoque com a árvore. Esses testes validam o carregamento dos mais de 50.000 itens mockados, a recuperação ordenada de lotes (FEFO), a busca por validade, o alerta de vencimentos próximos e a inserção de novos lotes. Como demonstra a segunda imagem, todos os testes de serviço também foram finalizados com êxito.
 
 ## Instalação
 **Linguagem**: Python<br>
@@ -62,20 +66,34 @@ python -m pytest tests/ -v
 
 ## Uso
 
-Após executar `python -m streamlit run app.py`, o navegador abrirá automaticamente com a interface. Use o **menu lateral** para navegar entre as telas:
+Após rodar o comando `python -m streamlit run app.py` (ou `python3 -m streamlit run app.py`), o seu navegador padrão será aberto automaticamente mostrando a interface do sistema. Se isso não ocorrer, você pode acessar pelo link local fornecido no terminal (geralmente `http://localhost:8501`).
 
-### Visualizar estoque
-Exibe todos os lotes cadastrados em **ordem crescente de validade** (princípio FEFO — *First Expired, First Out*). Use o slider para controlar quantos itens são exibidos na tabela. O painel lateral mostra os totais do estoque e a altura atual da árvore rubro-negra.
+A interface é dividida em um **menu lateral** para navegação e a tela principal. O sistema já é inicializado com um estoque de cerca de 52.000 itens de forma dinâmica e local, e as operações são efetuadas e refletidas internamente através da estrutura da Árvore Rubro-Negra.
 
-###  Inserir item
-Preencha o formulário com **produto, código do lote, quantidade, data de validade e fornecedor**, depois clique em **"Inserir lote"**. O item é imediatamente inserido na árvore e fica disponível nas demais telas.
+Abaixo, detalhamos o fluxo de uso e cada uma das opções disponíveis no menu:
 
-###  Buscar por validade
-Selecione uma data no calendário e clique em **"Buscar"**. O sistema retorna em **O(log n)** todos os lotes com exatamente aquela data de validade.
+### 1. Visualizar estoque
+Exibe uma tabela contendo os lotes cadastrados no estoque organizados em ordem crescente de validade (princípio FEFO — *First Expired, First Out*). Você pode usar o controle deslizante ("slider") da tela para definir a quantidade de itens consultados. No painel, também é atualizado o panorama atual (totais de estoque e a altura presente da árvore).
 
-###  Próximos vencimentos
-Use o slider para definir a **janela em dias** (padrão: 30). A tela lista todos os lotes que vencem dentro desse período e exibe, em separado, os lotes já vencidos.
+![alt text](docs/assets/view.png)
 
-### Percurso em ordem da árvore
-Visualiza os **nós da árvore rubro-negra em ordem crescente de chave** (data de validade), mostrando quantos lotes existem em cada data. Você pode escolher exibir a partir das menores ou das maiores validades, e controlar o número de nós exibido
+### 2. Inserir item
+Permite cadastrar a entrada de novos lotes de água. Ao preencher as informações (produto, código do lote, quantidade, validade e fornecedor) e submeter o formulário (em "Inserir lote"), o sistema realiza a inserção do elemento na Árvore e executa internamente o rebalanceamento, sempre operando em complexidade de tempo O(log n). O lote estará imediatamente apto para consulta.
 
+![alt text](docs/assets/insert.png)
+
+### 3. Buscar por validade
+Nesta página, você pode pesquisar através do calendário por itens que tenham uma data de vencimento específica. O sistema busca os itens na árvore em complexidade algorítmica de busca O(log n) e rapidamente lista todos os lotes atrelados a ela, ou informa caso não haja resultados.
+
+
+![alt text](docs/assets/search.png)
+
+### 4. Próximos vencimentos
+Funcionalidade para gerenciamento de vida útil de produtos. Você pode configurar uma "janela de dias" da busca através de um slider (por exemplo: próximos 30 dias contados a partir da data de hoje), e a funcionalidade devolverá a listagem dos lotes próximos da validade que se encontram nesta margem temporal, além de separar em outra tabela expansível os estoques que já expiraram.
+
+![alt text](docs/assets/expiring.png)
+
+### 5. Percurso em ordem da árvore
+Ferramenta para inspecionar os elementos por meio de um percurso em ordem ("in-order traversal"). Com a estrutura da árvore lida de forma sequencial, você poderá checar as chaves e visualizar as quantidades que cada nó aloja. Também é possível exibir de forma particionada entre "Início" e "Fim" de elementos da árvore de forma visual.
+
+![alt text](docs/assets/tree.png)
