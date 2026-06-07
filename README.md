@@ -61,7 +61,23 @@ python -m pytest tests/ -v
 - Se `python` não estiver disponível no seu terminal, use `python3` nos comandos acima.
 
 ## Uso
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+
+Após executar `python -m streamlit run app.py`, o navegador abrirá automaticamente com a interface. Use o **menu lateral** para navegar entre as telas:
+
+### 📦 Visualizar estoque
+Exibe todos os lotes cadastrados em **ordem crescente de validade** (princípio FEFO — *First Expired, First Out*). Use o slider para controlar quantos itens são exibidos na tabela. O painel lateral mostra os totais do estoque e a altura atual da árvore rubro-negra.
+
+### ➕ Inserir item
+Preencha o formulário com **produto, código do lote, quantidade, data de validade e fornecedor**, depois clique em **"Inserir lote"**. O item é imediatamente inserido na árvore e fica disponível nas demais telas.
+
+### 🔍 Buscar por validade
+Selecione uma data no calendário e clique em **"Buscar"**. O sistema retorna em **O(log n)** todos os lotes com exatamente aquela data de validade.
+
+### ⚠️ Próximos vencimentos
+Use o slider para definir a **janela em dias** (padrão: 30). A tela lista todos os lotes que vencem dentro desse período e exibe, em separado, os lotes já vencidos.
+
+### 🌳 Percurso em ordem da árvore
+Visualiza os **nós da árvore rubro-negra em ordem crescente de chave** (data de validade), mostrando quantos lotes existem em cada data. Você pode escolher exibir a partir das menores ou das maiores validades, e controlar o número de nós exibidos.
 
 ## Outros
 Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
