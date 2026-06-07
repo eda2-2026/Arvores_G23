@@ -13,7 +13,11 @@
 [Link para o vídeo de apresentação]()
 
 ## Sobre
-Descreva os objetivos do seu projeto e como ele funciona. 
+O **Gerenciador de Estoque de Água** é uma aplicação desenvolvida para controlar lotes de água a partir da data de validade. O objetivo do projeto é simular um cenário real de estoque, no qual é importante identificar rapidamente quais produtos vencem primeiro, buscar lotes por validade e listar os itens seguindo o princípio FEFO (*First Expired, First Out*).
+
+Para isso, o sistema utiliza uma **Árvore Rubro-Negra** como estrutura de índice ordenado. A chave da árvore é a data de validade dos lotes, no formato `YYYY-MM-DD`, onde como vários lotes podem possuir a mesma validade, cada nó da árvore armazena uma lista de itens associados àquela data.
+
+A aplicação carrega dados mock de estoque, transforma cada registro em um `StockItem` e insere esses itens na árvore por meio do serviço de inventário. A partir disso, o usuário pode visualizar o estoque, buscar lotes por validade, listar os produtos em ordem crescente de vencimento, consultar o lote mais próximo do vencimento e visualizar textualmente a estrutura da árvore, incluindo as cores dos nós e sua organização interna.
 
 ## Screenshots
 A seguir estão as imagens dos testes do projeto. As demais imagens do projeto em funcionamento (incluindo sua interface) estão na seção de **Uso**.
@@ -26,7 +30,7 @@ Para garantir que a implementação da Árvore Rubro-Negra está funcionando com
 
 ![alt text](docs/assets/testes2.png)
 
-Além disso, foram implementados testes para a camada de serviços em `test_inventory_service.py`, os quais garantem a correta integração do estoque com a árvore. Esses testes validam o carregamento dos mais de 50.000 itens mockados, a recuperação ordenada de lotes (FEFO — *First Expired, First Out*), a busca por validade, o alerta de vencimentos próximos e a inserção de novos lotes. Como demonstra a segunda imagem, todos os testes de serviço também foram finalizados com êxito.
+Além disso, foram implementados testes para a camada de serviços em `test_inventory_service.py`, os quais garantem a correta integração do estoque com a árvore. Esses testes validam o carregamento dos mais de 50.000 itens mockados, a recuperação ordenada de lotes (FEFO), a busca por validade, o alerta de vencimentos próximos e a inserção de novos lotes. Como demonstra a segunda imagem, todos os testes de serviço também foram finalizados com êxito.
 
 ## Instalação
 **Linguagem**: Python<br>
@@ -78,7 +82,7 @@ Exibe uma tabela contendo os lotes cadastrados no estoque organizados em ordem c
 ![alt text](docs/assets/view.png)
 
 ### 2. Inserir item
-Permite cadastrar a entrada de novos lotes de água. Ao preencher as informações (produto, código do lote, quantidade, validade e fornecedor) e submeter o formulário (em "Inserir lote"), o sistema realiza a inserção do elemento na árvore e executa internamente o rebalanceamento, sempre operando em complexidade de tempo O(log n). Com isso, o lote estará imediatamente apto para consulta.
+Permite cadastrar a entrada de novos lotes de água. Ao preencher as informações (produto, código do lote, quantidade, validade e fornecedor) e submeter o formulário (em "Inserir lote"), o sistema realiza a inserção do elemento na árvore e executa internamente o rebalanceamento, sempre operando em complexidade de tempo O(log n), mesmo no pior caso. Com isso, o lote estará imediatamente apto para consulta.
 
 ![alt text](docs/assets/insert.png)
 
@@ -97,6 +101,6 @@ Ferramenta para inspecionar os elementos por meio de um percurso em ordem ("in-o
 
 ![alt text](docs/assets/tree.png)
 
-Além disso, ao descer a página, você pode ver a árvore representada textualmente, com a indicação da cor de cada nó e da relação entre seus filhos esquerdo e direito. Essa visualização ajuda a demonstrar como a Árvore Rubro-Negra mantém os lotes organizados e balanceados internamente, usando a data de validade como chave de ordenação.
+Além disso, ao descer a página, você pode ver a árvore representada textualmente, com a indicação da cor de cada nó e da relação entre seus filhos esquerdo e direito, permitindo ainda limitar a profundidade máxima exibida (8 níveis é o máximo para manter a interface legível). Essa visualização ajuda a demonstrar como a Árvore Rubro-Negra mantém os lotes organizados e balanceados internamente, usando a data de validade como chave de ordenação.
 
 ![alt text](docs/assets/visualizer.png)
