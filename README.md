@@ -16,7 +16,7 @@
 Descreva os objetivos do seu projeto e como ele funciona. 
 
 ## Screenshots
-A seguir estão imagens do projeto em funcionamento.
+A seguir estão as imagens dos testes do projeto. As demais imagens do projeto em funcionamento (incluindo sua interface) estão na seção de **Uso**.
 
 ### Execução local dos testes
 
@@ -26,7 +26,7 @@ Para garantir que a implementação da Árvore Rubro-Negra está funcionando com
 
 ![alt text](docs/assets/testes2.png)
 
-Além disso, foram implementados testes para a camada de serviços em `test_inventory_service.py`, os quais garantem a correta integração do estoque com a árvore. Esses testes validam o carregamento dos mais de 50.000 itens mockados, a recuperação ordenada de lotes (FEFO), a busca por validade, o alerta de vencimentos próximos e a inserção de novos lotes. Como demonstra a segunda imagem, todos os testes de serviço também foram finalizados com êxito.
+Além disso, foram implementados testes para a camada de serviços em `test_inventory_service.py`, os quais garantem a correta integração do estoque com a árvore. Esses testes validam o carregamento dos mais de 50.000 itens mockados, a recuperação ordenada de lotes (FEFO — *First Expired, First Out*), a busca por validade, o alerta de vencimentos próximos e a inserção de novos lotes. Como demonstra a segunda imagem, todos os testes de serviço também foram finalizados com êxito.
 
 ## Instalação
 **Linguagem**: Python<br>
@@ -66,25 +66,24 @@ python -m pytest tests/ -v
 
 ## Uso
 
-Após rodar o comando `python -m streamlit run app.py` (ou `python3 -m streamlit run app.py`), o seu navegador padrão será aberto automaticamente mostrando a interface do sistema. Se isso não ocorrer, você pode acessar pelo link local fornecido no terminal (geralmente `http://localhost:8501`).
+Após rodar o comando `python -m streamlit run app.py` (ou `python3 -m streamlit run app.py`), o seu navegador padrão será aberto automaticamente, mostrando a interface do sistema. Se isso não ocorrer, você pode acessar pelo link local fornecido no terminal (geralmente `http://localhost:8501`).
 
-A interface é dividida em um **menu lateral** para navegação e a tela principal. O sistema já é inicializado com um estoque de cerca de 52.000 itens de forma dinâmica e local, e as operações são efetuadas e refletidas internamente através da estrutura da Árvore Rubro-Negra.
+A interface é dividida em um **menu lateral** para navegação e a tela principal. O sistema já é inicializado com um estoque de cerca de 52.000 itens de forma dinâmica e local, e as operações são efetuadas e refletidas internamente através da **estrutura da Árvore Rubro-Negra**.
 
-Abaixo, detalhamos o fluxo de uso e cada uma das opções disponíveis no menu:
+Abaixo, detalhamos o fluxo de uso e cada uma das opções disponíveis no menu.
 
 ### 1. Visualizar estoque
-Exibe uma tabela contendo os lotes cadastrados no estoque organizados em ordem crescente de validade (princípio FEFO — *First Expired, First Out*). Você pode usar o controle deslizante ("slider") da tela para definir a quantidade de itens consultados. No painel, também é atualizado o panorama atual (totais de estoque e a altura presente da árvore).
+Exibe uma tabela contendo os lotes cadastrados no estoque organizados em ordem crescente de validade (princípio de fila FEFO — *First Expired, First Out*). Você pode usar o controle deslizante ("slider") da tela para definir a quantidade de itens consultados. No painel, também é atualizado o panorama atual (totais de estoque e a altura presente da árvore).
 
 ![alt text](docs/assets/view.png)
 
 ### 2. Inserir item
-Permite cadastrar a entrada de novos lotes de água. Ao preencher as informações (produto, código do lote, quantidade, validade e fornecedor) e submeter o formulário (em "Inserir lote"), o sistema realiza a inserção do elemento na Árvore e executa internamente o rebalanceamento, sempre operando em complexidade de tempo O(log n). O lote estará imediatamente apto para consulta.
+Permite cadastrar a entrada de novos lotes de água. Ao preencher as informações (produto, código do lote, quantidade, validade e fornecedor) e submeter o formulário (em "Inserir lote"), o sistema realiza a inserção do elemento na árvore e executa internamente o rebalanceamento, sempre operando em complexidade de tempo O(log n). Com isso, o lote estará imediatamente apto para consulta.
 
 ![alt text](docs/assets/insert.png)
 
 ### 3. Buscar por validade
 Nesta página, você pode pesquisar através do calendário por itens que tenham uma data de vencimento específica. O sistema busca os itens na árvore em complexidade algorítmica de busca O(log n) e rapidamente lista todos os lotes atrelados a ela, ou informa caso não haja resultados.
-
 
 ![alt text](docs/assets/search.png)
 
@@ -97,3 +96,7 @@ Funcionalidade para gerenciamento de vida útil de produtos. Você pode configur
 Ferramenta para inspecionar os elementos por meio de um percurso em ordem ("in-order traversal"). Com a estrutura da árvore lida de forma sequencial, você poderá checar as chaves e visualizar as quantidades que cada nó aloja. Também é possível exibir de forma particionada entre "Início" e "Fim" de elementos da árvore de forma visual.
 
 ![alt text](docs/assets/tree.png)
+
+Além disso, ao descer a página, você pode ver a árvore representada textualmente, com a indicação da cor de cada nó e da relação entre seus filhos esquerdo e direito. Essa visualização ajuda a demonstrar como a Árvore Rubro-Negra mantém os lotes organizados e balanceados internamente, usando a data de validade como chave de ordenação.
+
+![alt text](docs/assets/visualizer.png)

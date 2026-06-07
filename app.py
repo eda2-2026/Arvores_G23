@@ -12,6 +12,7 @@ import streamlit as st
 
 from src.inventory_service import InventoryService
 from src.models import StockItem
+from src.tree_visualizer import render_tree
 
 # ---------------------------------------------------------------------------
 # Configuração da página
@@ -264,3 +265,22 @@ elif pagina == "🌳 Percurso em ordem da árvore":
         col1, col2 = st.columns(2)
         col1.info(f"**Mínimo (raiz mais à esquerda):** {min_val} — {len(min_itens)} lote(s)")
         col2.info(f"**Máximo (raiz mais à direita):** {max_val} — {len(max_itens)} lote(s)")
+
+    st.divider()
+
+    st.subheader("Visualização textual da árvore")
+    st.caption("**Cores**: B = preto; R = vermelho. **Filhos**: E = filho esquerdo; D = filho direito.")
+
+    max_depth_disponivel = max(1, min(8, svc.altura_arvore))
+    profundidade = st.slider(
+        "Qual deve ser a profundidade máxima da visualização?",
+        min_value=1,
+        max_value=max_depth_disponivel,
+        value=min(4, max_depth_disponivel),
+    )
+    mostrar_nil = st.checkbox("Mostrar nós NIL", value=False)
+
+    st.code(
+        render_tree(svc._tree, max_depth=profundidade, show_nil=mostrar_nil),
+        language="text",
+    )
