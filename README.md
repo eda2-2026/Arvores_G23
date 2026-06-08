@@ -10,7 +10,7 @@
 | 23/1026714  |  Euller Júlio da Silva |
 
 ## Apresentação do trabalho
-[Link para o vídeo de apresentação]()
+[Link para o vídeo de apresentação](https://youtu.be/xFLADZ4Ua9s)
 
 ## Sobre
 O **Gerenciador de Estoque de Água** é uma aplicação desenvolvida para controlar lotes de água a partir da data de validade. O objetivo do projeto é simular um cenário real de estoque, no qual é importante identificar rapidamente quais produtos vencem primeiro, buscar lotes por validade e listar os itens seguindo o princípio FEFO (*First Expired, First Out*).
